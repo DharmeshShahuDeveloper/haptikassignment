@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/haptikassignment/static/css/main.a758c349.chunk.css",
-    "main.js": "/haptikassignment/static/js/main.639d7dff.chunk.js",
-    "main.js.map": "/haptikassignment/static/js/main.639d7dff.chunk.js.map",
+    "main.js": "/haptikassignment/static/js/main.94441fb6.chunk.js",
+    "main.js.map": "/haptikassignment/static/js/main.94441fb6.chunk.js.map",
     "runtime-main.js": "/haptikassignment/static/js/runtime-main.f4c978c6.js",
     "runtime-main.js.map": "/haptikassignment/static/js/runtime-main.f4c978c6.js.map",
     "static/css/2.f707114e.chunk.css": "/haptikassignment/static/css/2.f707114e.chunk.css",
@@ -21,6 +21,6 @@
     "static/css/2.f707114e.chunk.css",
     "static/js/2.0173bfdb.chunk.js",
     "static/css/main.a758c349.chunk.css",
-    "static/js/main.639d7dff.chunk.js"
+    "static/js/main.94441fb6.chunk.js"
   ]
 }
