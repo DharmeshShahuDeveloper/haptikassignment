@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+body * {
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+  color: #444;
+  font-size: 14px;
+}
+
+
+.friend-list-main {
+  display: grid;
+  align-items: start;
+  justify-content: center;
+  padding: 100px;
+  height: 100vh;
+  overflow-y: auto;
+  background: linear-gradient(100deg,#200c32,#e74d89,#febaa6);
+  background-size: 180% 180%;
+  animation: gradient-animation 9s ease infinite;
+  .friend-list-box {
+    width: 400px;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
+    > h3 {
+      background-color: #367EF5;
+      padding: 10px;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+      font-size: 18px;
+      border-radius: 5px 5px 0px 0px;
+    }
+    .friend-list-box-inner {
+      padding: 0px 10px 10px;
+      #addfriend {
+        box-shadow: none;
+        outline: none;
+        display: block;
+        width: 100%;
+        border: 1px solid #ddd;
+        padding: 8px 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+        background-color: #e6efff;
+        color: #333;
+      }
+    #searchbox {
+      box-shadow: none;
+      outline: none;
+      display: block;
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid #ddd;
+      padding: 8px 10px;
+      margin-top: 5px;
+      color: #333;
+    }
+  }
+
+  .sortbtn {
+    margin-top: 15px;
+    text-align: right;
+    button {
+      background-color: #fff;
+      border: 0;
+      box-shadow: none;
+      cursor: pointer;
+      color: #444;
+      font-size: 12px;
+      font-weight: bold;
+      &.active {
+        
+        color: #367EF5;
+      }
+    }
+  }
+
+  .friend-list-ul {
+    li {
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: auto 20px 20px;
+    grid-column-gap: 10px;
+    > span {
+      display: grid;
+      align-items: center;
+      justify-content: center;
+      i {
+        font-size: 17px;
+        color: #ccc;
+        transition: color 0.2s;
+        cursor: pointer;
+        &.fa-star {
+          color: #367EF5;
+          transition: color 0.3s;
+        }
+        &:hover {
+          color: #367EF5;
+          transition: color 0.3s;
+        }
+      }
+      &:first-child {
+        text-align: left;
+        justify-content: start;
+        cursor: default;
+        > span {
+          &:first-child {
+            color: #444;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+          &:nth-child(2) {
+            color: #A9A9A9;
+            font-size: 10px;
+          }
+        }
+      }
+    }
+    }
+  }
+
+  }
+  .pagination {
+    padding: 5px 10px 10px;
+    ul {
+      text-align: center;
+      li {
+        display: inline-block;
+        border: 1px solid #367EF5;
+        padding: 6px 8px;
+        font-size: 12px;
+        color: #367EF5;
+        border-radius: 50%;
+        margin-right: 5px;
+        cursor: pointer;
+        &.active {
+          background-color: #367EF5;
+          border: 1px solid #367EF5;
+          color: #fff;
+          cursor: default;
+        }
+        &:hover {
+          background-color: #367EF5;
+          border: 1px solid #367EF5;
+          color: #fff;
+          transition: 0.3s;
+        }
+      }
+    }
+  }
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.error {
+  margin-top: 5px;
+  color: #FF4C4C;
+  font-size: 12px;
+  text-align: center;
+}
+
+
+.modalwrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1500;
+  background-color: rgba(0,0,0, 0.3);
+
+  .modalmain {
+    width: 300px;
+    height: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 40%;
+    transform: translateY(-50%);
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+
+    p {
+      font-weight: bold;
+      text-align: center;
+      line-height: 1.4;
+      max-width: 250px;
+      margin: 0 auto;
+      strong {
+        color: #367EF5;
+      }
+    }
+
+    .modalbtns {
+      margin-top: 15px;
+      text-align: center;
+      button {
+        color: #fff;
+        border: 0;
+        box-shadow: none;
+        outline: none;
+        padding: 0 15px;
+        border-radius: 3px;
+        display: inline-block;
+        font-size: 12px;
+        line-height: 23px;
+        cursor: pointer;
+      &.yes {
+        border: 1px solid rgba(54,126,245,0.9);
+        background-color: rgba(54,126,245,0.9);
+        margin-right: 10px;
+        &:hover {
+        background-color: rgba(54,126,245,1);
+        transition: background-color 0.3s;
+        }
+      }
+      &.no {
+        border: 1px solid rgba(119,119,119,0.9);
+        background-color: rgba(119,119,119,0.9);
+        &:hover {
+        background-color: rgba(119,119,119,1);
+        transition: background-color 0.3s;
+        }
+      }
+    }
+    }
+
+  }
+
+}
