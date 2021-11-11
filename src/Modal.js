@@ -1,5 +1,5 @@
+import { useEffect, useState } from 'react';
 import { createPortal } from "react-dom";
-import { useEffect } from "react/cjs/react.development";
 
 export default function Modal(props) {
 
