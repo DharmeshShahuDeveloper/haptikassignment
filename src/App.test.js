@@ -1,6 +1,21 @@
-const deleteFunction = require('./App/deleteFunction');
+import { addFunction, deleteFunction, favFunction } from './helperfunctions';
 
-test('adds 1 + 2 to equal 3', () => {
+test('Add Function Test', () => {
+  expect(addFunction('Ironman', [{
+    name: 'Superman',
+    favourite: false
+  }
+])).toEqual([{
+  name: 'Superman',
+  favourite: false
+},
+{
+  name: 'Ironman',
+  favourite: false
+}]);
+});
+
+test('Delete Function Test', () => {
   expect(deleteFunction('Ironman', [{
     name: 'Superman',
     favourite: false
@@ -11,5 +26,18 @@ test('adds 1 + 2 to equal 3', () => {
   },])).toEqual([{
     name: 'Superman',
     favourite: false
+  }]);
+});
+
+test('Favourite Function Test', () => {
+  expect(favFunction({
+    name: 'Superman',
+    favourite: false
+  }, [{
+    name: 'Superman',
+    favourite: false
+  }])).toEqual([{
+    name: 'Superman',
+    favourite: true
   }]);
 });

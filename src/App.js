@@ -2,9 +2,11 @@ import './App.scss';
 import 'font-awesome/css/font-awesome.min.css';
 import { useEffect, useState } from 'react';
 import Modal from './Modal';
+import { addFunction, deleteFunction, favFunction } from './helperfunctions';
 
-function App() {
+export default function App() {
 
+  //friend list stored possible to act as a server fetched data
   const [friendListOg, setFriendListOg] = useState([
     {
       name: 'Superman',
@@ -48,34 +50,54 @@ function App() {
     }
   ]);
 
+  //friend list
   const [friendList, setFriendList] = useState([]);
 
+  //current page of pagination
   const [currentPage, setCurrentPage] = useState(0);
 
+  //sort direction
   const [sort, setSort] = useState(false);
 
-  const [ready, setReady] = useState(true);
+  //add friend message show condition
+  const [addSuccess, setAddSuccess] = useState(false);
 
+  //state to store validation error while adding friend
   const [friendError, setFriendError] = useState('');
 
+  //delete modal display state
   const [modalShow, setModalShow] = useState(false);
+
+  //temporary holder to store the name of friend to be deleted
   const [deleteHolder, setDeleteHolder] = useState('');
 
+  //any change in orignal friendlist will be reflected on the current displayed friendlist
   useEffect(()=>{
     setFriendList(friendListOg);
   },[friendListOg]);
 
+  //success message hide after 1 sec of being displayed
   useEffect(()=>{
-    if(!ready) {
-      setReady(true);
+    if(addSuccess) {
+      setTimeout(()=> {
+        setAddSuccess(false)
+      },1000);
     }
-  },[ready]);
+  },[addSuccess]);
 
-  const deleteFunction = (name, list) => {
-    // setFriendList(list => list.filter(listItem=> listItem.name !== name));
-    let tempList = [...list].filter(listItem=> listItem.name !== name);
-    setFriendListOg(tempList);
-    return tempList;
+  //add friend function
+  const addItem = (name) => {
+    setFriendListOg(addFunction(name, friendListOg));
+  }
+
+  //delete friend function
+  const deleteItem = (name) => {
+    setFriendListOg(deleteFunction(name, friendListOg));
+  }
+
+  //favourite a  friend function
+  const favItem = (item) => {
+    setFriendListOg(favFunction(item, friendListOg));
   }
 
 
@@ -84,7 +106,11 @@ function App() {
           <div className="friend-list-box">
             <h3>You have {friendListOg.length} friends!</h3>
             <div className="friend-list-box-inner">
+              {/* add a friend input */}
             <input id="addfriend" placeholder="Enter your friend's name"
+            onChange={(e)=> {
+              setAddSuccess(false);
+            }}
             onKeyPress={(e) => {
               if (e.key === "Enter") {
                 if(e.target.value) {
@@ -92,12 +118,12 @@ function App() {
                   setFriendError('Friend is already present in the list');
                 }
                 else {
-                // setFriendList(list=> [...list, {name: e.target.value, favourite: false}]);
-                setFriendListOg(list=> [...list, {name: e.target.value, favourite: false}]);
+                addItem(e.target.value);
                 setTimeout(()=>{
                   e.target.value = '';
                 }, 10)
                 setFriendError('');
+                setAddSuccess(true);
                 }
               }
               else {
@@ -107,43 +133,46 @@ function App() {
             }}
             />
             {friendError && <p className="error">{friendError}</p>}
+            {addSuccess && <p className="successalert">Added Successfully!</p>}
+
+            {/* search a friend input */}
             <input id="searchbox" placeholder="Search Friends..." onChange={(e)=>{
               let inputVal = e.target.value;
-              // setFriendList(friendListOg.filter(item  => item.name.toUpperCase().indexOf(inputVal) > -1));
               setFriendList(friendListOg.filter(item  => item.name.toUpperCase().indexOf(inputVal.toUpperCase()) > -1));
               setCurrentPage(0);
+              setSort(false);
             }}/>
             <div className="sortbtn">
             <button className={sort ? "active" : null} onClick={()=> {
               if(sort) {
-              // setFriendList(list=> list.sort((a,b)=> a.favourite - b.favourite));
-              setFriendListOg(list=> list.sort((a,b)=> a.favourite - b.favourite));
+              setFriendList(list=> list.sort((a,b)=> a.favourite - b.favourite));
               }
               else {
-                // setFriendList(list=> list.sort((a,b)=> b.favourite - a.favourite));
-                setFriendListOg(list=> list.sort((a,b)=> b.favourite - a.favourite));
+                setFriendList(list=> list.sort((a,b)=> b.favourite - a.favourite));
               }
               setCurrentPage(0);
-              setReady(false);
               setSort(sorted => !sorted);
             }}>Sort by Favourite</button>
             </div>
             <ul className="friend-list-ul">
               {
-                ready && friendList.slice(currentPage*3, (currentPage+1)*3).map((item)=>{
+                friendList.slice(currentPage*3, (currentPage+1)*3).map((item)=>{
+                  // displayed friendlist
                   return (
                     <li>
                       <span>
                         <span>{item.name}</span>
                         <span>is your friend</span>
                         </span>
-                    <span><i className={"fa fa-star" + (!item.favourite ? "-o" : '')} aria-hidden="true" onClick={()=> {
-                      // setFriendList(list => list.map(listItem => listItem.name === item.name ? {...listItem, favourite: !item.favourite} : listItem));
-                      setFriendListOg(list => list.map(listItem => listItem.name === item.name ? {...listItem, favourite: !item.favourite} : listItem));
-                    }}/>
-                    </span>
                     <span>
-                    <i class="fa fa-trash-o" aria-hidden="true" onClick={()=>{
+                      {/* favourite a friend icon */}
+                      <i className={"fa fa-star" + (!item.favourite ? "-o" : '')} aria-hidden="true" 
+                      onClick={()=> favItem(item)}/>
+                      </span>
+                    <span>
+                      {/* delete a friend icon */}
+                    <i class="fa fa-trash-o" aria-hidden="true" 
+                    onClick={()=>{
                       setDeleteHolder(item.name);
                       setModalShow(true);
                     }}/>
@@ -157,7 +186,7 @@ function App() {
             {
               Array.from(Array(Math.ceil(friendList.length/3)).keys()).length > 1
               ? (
-
+                // Pagination Block (using array methods to generate number of pages)
                 <div className="pagination">
                 <ul>
                 {
@@ -175,9 +204,7 @@ function App() {
               : null
             }
             </div>
-            <Modal show={modalShow} setModalShow={setModalShow} delete={deleteFunction} friendList={friendListOg} name={deleteHolder}/>
+            <Modal show={modalShow} setModalShow={setModalShow} delete={deleteItem} friendList={friendListOg} name={deleteHolder}/>
     </div>
   );
 }
-
-export default App;
