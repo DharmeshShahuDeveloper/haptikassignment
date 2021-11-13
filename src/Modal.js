@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { createPortal } from "react-dom";
 
 export default function Modal(props) {
@@ -11,7 +11,7 @@ export default function Modal(props) {
         }
         window.addEventListener('keydown', close)
       return () => window.removeEventListener('keydown', close)
-    },[])
+    },[props])
 
     if(props.show) {
     return createPortal(
